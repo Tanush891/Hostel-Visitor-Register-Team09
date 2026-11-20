@@ -1,9 +1,4 @@
-# Hostel-Visitor-Register-Team09
-
-
 # Hostel Visitor Register
-
-
 
 ## Problem statement
 
@@ -32,6 +27,14 @@ The app creates one SQLite database file named `visitors.db` with these tables:
 
 Each visitor row is connected to its staff user through `user_id`. Email addresses are unique. Passwords are stored as hashes.
 
+## Docker and deployment
+
+- Create a Dockerfile for the FastAPI backend, build the Docker image, and run the app in a container.
+- Check that the app works through the container. Docker Compose is not required.
+- Use GitHub Actions to build the image when code is pushed, push the latest image to Docker Hub, connect to the team's EC2 instance, and replace the running container with the updated image.
+- Store Docker Hub and EC2 credentials in GitHub Actions Secrets. Do not put credentials in the repository.
+- Install Docker on one EC2 instance and make the app available through its public IP.
+- Keep `visitors.db` in a persistent folder on EC2 and mount that folder into the container so records remain after a restart or deployment.
 
 
 `backend/main.py` sets up the FastAPI application. `backend/functions.py` contains its Python functions and API routes. The React files provide registration, login, and the visitor dashboard. `Dockerfile` builds the app container, and `.github/workflows/deploy.yml` describes the GitHub Actions deployment workflow.
