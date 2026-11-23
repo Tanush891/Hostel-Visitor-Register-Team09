@@ -94,3 +94,23 @@ def get_all_visitors(token=Header(None)):
     if not user_id:
         raise HTTPException(status_code=401, detail="Invalid or expired access token")
     return functions.get_visitors(user_id)
+
+
+@app.post("/visitors", status_code=201)
+def add_new_visitor(visitor: VisitorIn, token=Header(None)):
+    user_id = functions.verify_token(token, "access")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Invalid or expired access token")
+    return functions.add_visitor(
+        user_id=user_id,
+        visitor_name=visitor.visitor_name,
+        student_name=visitor.student_name,
+        room_no=visitor.room_no,
+        purpose=visitor.purpose,
+        visit_date=visitor.visit_date,
+    )
+
+
+frontend_folder = Path(__file__).parent / "frontend" / "dist"
+if frontend_folder.is_dir():
+    app.mount("/", StaticFiles(directory=frontend_folder, html=True), name="frontend")
